@@ -82,7 +82,12 @@ class Connector(object):
         if method == 'POST':
             req.add_header('Content-Type', content_type)
             data = options.get('data') or resource.marshal()
-            req.data = json.dumps(data).encode('utf-8')
+            try:
+                # check if data is already valid JSON
+                json.loads(data)
+                req.data = data
+            except ValueError:
+                req.data = json.dumps(data).encode('utf-8')
 
         return self.handle_response(resource, self.opener.open(req))
 

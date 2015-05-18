@@ -97,6 +97,15 @@ class TestOrder(unittest.TestCase):
         self._connector.apply.assert_called_once_with(
             "POST", self._order, {"url": location, "data": data})
 
+    def test_create_json(self):
+        location = "http://stub"
+        self._order.base_uri = location
+        data = '{"foo": "boo"}'
+        self._order.create(data)
+
+        self._connector.apply.assert_called_once_with(
+            "POST", self._order, {"url": location, "data": data})
+
     def test_fetch(self):
         location = "http://stub"
         self._order.location = location
