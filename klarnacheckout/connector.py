@@ -82,7 +82,7 @@ class Connector(object):
         if method == 'POST':
             req.add_header('Content-Type', content_type)
             data = options.get('data') or resource.marshal()
-            if hasattr(data, '__iter__'):
+            if isinstance(data, (list, tuple, dict)):
                 # data which is iterable must be serialized
                 req.data = json.dumps(data).encode('utf-8')
             else:
